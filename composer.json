@@ -1,0 +1,17 @@
+{
+    "name": "andi-malik/sistem-pembayaran-a-p-i",
+    "description": "Description of project SistemPembayaranAPI.",
+    "authors": [
+        {
+            "name": "Andi Malik",
+            "email": "andi.malik.notifications@gmail.com"
+        }
+    ],
+    "require": {
+
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.0",
+        "phpunit/dbunit": "1.3.1"
+    }
+}
