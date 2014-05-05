@@ -30,6 +30,7 @@ $__classes = array(
     /**
      * Component Objects
      */
+    COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "PeninjauAbstract.php",
     COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "PeninjauComponent.php",
     COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "TransaksiComponent.php",
     /**
