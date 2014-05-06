@@ -16,7 +16,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @covers PeninjauComponent::setPDO()
      * @covers PeninjauComponent::getPDO()
      * @covers PeninjauComponent::unsetPDO()
@@ -34,7 +34,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestNomorAda
      * @covers PeninjauComponent::nomorTransaksiAda()
      */
@@ -47,7 +47,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestNomorAda
      * @covers PeninjauComponent::nomorReferensiAda()
      */
@@ -60,7 +60,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerRecordAda
      * @covers PeninjauComponent::rekeningAda()
      */
@@ -73,7 +73,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerRecordAda
      * @covers PeninjauComponent::kasirAda()
      */
@@ -86,7 +86,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerRecordAda
      * @covers PeninjauComponent::siswaAda()
      */
@@ -99,7 +99,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerRecordAda
      * @covers PeninjauComponent::jenisPembayaranAda()
      */
@@ -112,7 +112,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerRecordAda
      * @covers PeninjauComponent::unitAda()
      */
@@ -125,7 +125,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerHitungRecord
      * @covers PeninjauComponent::hitungBanyaknyaAlokasi()
      */
@@ -138,7 +138,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestException
      * @covers PeninjauComponent::nomorTransaksiAda()
      */
@@ -158,7 +158,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestException
      * @covers PeninjauComponent::nomorReferensiAda()
      */
@@ -178,7 +178,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestException
      * @covers PeninjauComponent::rekeningAda()
      */
@@ -198,7 +198,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestException
      * @covers PeninjauComponent::kasirAda()
      */
@@ -218,7 +218,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestException
      * @covers PeninjauComponent::siswaAda()
      */
@@ -238,7 +238,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestException
      * @covers PeninjauComponent::jenisPembayaranAda()
      */
@@ -258,7 +258,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestException
      * @covers PeninjauComponent::unitAda()
      */
@@ -278,7 +278,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @group unitTest
-     * @group recordObject
+     * @group componentObject
      * @dataProvider providerTestException
      * @covers PeninjauComponent::hitungBanyaknyaAlokasi()
      */

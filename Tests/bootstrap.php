@@ -32,6 +32,7 @@ $__classes = array(
      */
     COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "PeninjauAbstract.php",
     COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "PeninjauComponent.php",
+    COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "PenagihanComponent.php",
     COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "TransaksiComponent.php",
     /**
      * Persistence Objects
@@ -44,8 +45,11 @@ $__classes = array(
      */
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockAlokasiRecord.php",
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockDateTime.php",
+    UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockJenisPembayaranRecord.php",
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockPDO.php",
+    UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockSiswaRecord.php",
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockTransaksiRecord.php",
+    UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockUnitRecord.php",
     INTEGRATION_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MyApp_DbUnit_ArrayDataSet.php",
     INTEGRATION_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MyApp_DbUnit_InsertOperation.php",
     INTEGRATION_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MyApp_DbUnit_TruncateOperation.php",
