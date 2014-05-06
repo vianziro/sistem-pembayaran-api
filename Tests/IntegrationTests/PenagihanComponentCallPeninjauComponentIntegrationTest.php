@@ -48,7 +48,7 @@ class PenagihanComponentCallPeninjauComponentIntegrationTest extends PHPUnit_Fra
     /**
      * @group integrationTest
      * @group componentObject
-     * @depends testPerolehTagihanSiswaMmeperolehJumlahTagihanDariKomponenPeninjau
+     * @depends testPerolehTagihanSiswaMemperolehJumlahTagihanDariKomponenPeninjau
      * @covers PenagihanComponent::perolehTagihanSiswa()
      * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
      */
