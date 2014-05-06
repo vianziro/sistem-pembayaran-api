@@ -25,7 +25,7 @@ class PenagihanComponentCallPeninjauComponentIntegrationTest extends PHPUnit_Fra
      * @covers PenagihanComponent::perolehTagihanSiswa()
      * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
      */
-    public function testPerolehTagihanSiswaMmeperolehJumlahTagihanDariKomponenPeninjau() {
+    public function testPerolehTagihanSiswaMemperolehJumlahTagihanDariKomponenPeninjau() {
         $jumlahTagihan = 100000.00000;
 
         $mockUnit = $this->getMockUnitRecord();
