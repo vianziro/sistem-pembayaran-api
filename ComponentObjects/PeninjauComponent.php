@@ -85,4 +85,17 @@ class PeninjauComponent extends PeninjauAbstract {
         return $result["count_result"];
     }
 
+    public function perolehJumlahTagihanSiswa($idUnit, $idJenisPembayaran, $idSiswa, $waktuTagihan) {
+        $sql = "SELECT SUM(sisa) AS sum_result FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND waktu_tagihan <= :waktu_tagihan AND sisa != 0";
+
+        $input[":id_unit"] = $idUnit;
+        $input[":id_jenis_pembayaran"] = $idJenisPembayaran;
+        $input[":id_siswa"] = $idSiswa;
+        $input[":waktu_tagihan"] = $waktuTagihan;
+
+        $result = $this->fetchRowQuery($sql, $input);
+
+        return $result["sum_result"];
+    }
+
 }

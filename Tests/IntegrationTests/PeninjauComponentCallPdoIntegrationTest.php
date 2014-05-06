@@ -110,8 +110,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
                 $pdoStatement = $this->object->getPDO()->prepare($sql);
                 $pdoStatement->execute($inputParameter[0]);
                 $result = $pdoStatement->fetch(PDO::FETCH_ASSOC);
+                $resultKey = $this->getResultKey($methodName);
 
-                $this->assertEquals($inputParameter[1], $result["count_result"], "Result yang dikembalikan query pada method " . $methodName . " tidak sesuai harapan. " . $pdoStatement->queryString . " " . print_r($inputParameter[0], TRUE));
+                $this->assertEquals($inputParameter[1], $result[$resultKey], "Result yang dikembalikan query pada method " . $methodName . " tidak sesuai harapan. " . $pdoStatement->queryString . " " . print_r($inputParameter[0], TRUE));
                 $pdoStatements[] = $pdoStatement;
             }
         }
@@ -175,6 +176,11 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "hitungBanyaknyaAlokasi" => array(
                 array(array(":id_transaksi" => 1), 2),
                 array(array(":id_transaksi" => 2), 3)
+            ),
+            "perolehJumlahTagihanSiswa" => array(
+                array(array(":id_unit" => 4, ":id_jenis_pembayaran" => 3, ":id_siswa" => 1, ":waktu_tagihan" => "2014-05-01 00:00:00"), 150000.00000),
+                array(array(":id_unit" => 4, ":id_jenis_pembayaran" => 3, ":id_siswa" => 1, ":waktu_tagihan" => "2014-04-01 00:00:00"), 50000.00000),
+                array(array(":id_unit" => 4, ":id_jenis_pembayaran" => 3, ":id_siswa" => 1, ":waktu_tagihan" => "2014-03-01 00:00:00"), 0.00000)
             )
         );
 
@@ -194,8 +200,25 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "siswaAda" => "SELECT COUNT(*) AS count_result FROM siswa WHERE id = :id",
             "unitAda" => "SELECT COUNT(*) AS count_result FROM unit WHERE id = :id",
             "jenisPembayaranAda" => "SELECT COUNT(*) AS count_result FROM jenis_pembayaran WHERE id = :id",
-            "hitungBanyaknyaAlokasi" => "SELECT COUNT(*) AS count_result FROM alokasi WHERE id_transaksi = :id_transaksi"
+            "hitungBanyaknyaAlokasi" => "SELECT COUNT(*) AS count_result FROM alokasi WHERE id_transaksi = :id_transaksi",
+            "perolehJumlahTagihanSiswa" => "SELECT SUM(sisa) AS sum_result FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND waktu_tagihan <= :waktu_tagihan AND sisa != 0"
         );
+    }
+
+    private function getResultKey($methodName) {
+        $resultKeys = array(
+            "nomorTransaksiAda" => "count_result",
+            "nomorReferensiAda" => "count_result",
+            "rekeningAda" => "count_result",
+            "kasirAda" => "count_result",
+            "siswaAda" => "count_result",
+            "unitAda" => "count_result",
+            "jenisPembayaranAda" => "count_result",
+            "hitungBanyaknyaAlokasi" => "count_result",
+            "perolehJumlahTagihanSiswa" => "sum_result"
+        );
+
+        return $resultKeys[$methodName];
     }
 
     private function getPresetDataset() {
@@ -243,6 +266,88 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
                 array("id" => 2, "nama" => "UK", "label" => "UK"),
                 array("id" => 3, "nama" => "SPP", "label" => "SPP"),
                 array("id" => 4, "nama" => "US", "label" => "US")
+            ),
+            "tagihan" => array(
+                array(
+                    "id" => 1,
+                    "waktu_tagihan" => "2014-03-01 00:00:00",
+                    "id_tahun_ajaran" => 1,
+                    "id_siswa" => 2,
+                    "id_bulan" => 9,
+                    "id_jenis_pembayaran" => 3,
+                    "nilai" => 100000.00000,
+                    "terbayar" => 0.00000,
+                    "sisa" => 100000.00000,
+                    "id_unit" => 4,
+                    "id_program" => 1,
+                    "id_jurusan" => 1,
+                    "id_tingkat" => 15,
+                    "id_kelas" => 45
+                ),
+                array(
+                    "id" => 2,
+                    "waktu_tagihan" => "2014-03-01 00:00:00",
+                    "id_tahun_ajaran" => 1,
+                    "id_siswa" => 1,
+                    "id_bulan" => 9,
+                    "id_jenis_pembayaran" => 3,
+                    "nilai" => 100000.00000,
+                    "terbayar" => 100000.00000,
+                    "sisa" => 0.00000,
+                    "id_unit" => 4,
+                    "id_program" => 1,
+                    "id_jurusan" => 1,
+                    "id_tingkat" => 15,
+                    "id_kelas" => 45
+                ),
+                array(
+                    "id" => 3,
+                    "waktu_tagihan" => "2014-04-01 00:00:00",
+                    "id_tahun_ajaran" => 1,
+                    "id_siswa" => 1,
+                    "id_bulan" => 10,
+                    "id_jenis_pembayaran" => 3,
+                    "nilai" => 100000.00000,
+                    "terbayar" => 50000.00000,
+                    "sisa" => 50000.00000,
+                    "id_unit" => 4,
+                    "id_program" => 1,
+                    "id_jurusan" => 1,
+                    "id_tingkat" => 15,
+                    "id_kelas" => 45
+                ),
+                array(
+                    "id" => 4,
+                    "waktu_tagihan" => "2014-04-01 00:00:00",
+                    "id_tahun_ajaran" => 1,
+                    "id_siswa" => 1,
+                    "id_bulan" => 10,
+                    "id_jenis_pembayaran" => 2,
+                    "nilai" => 100000.00000,
+                    "terbayar" => 50000.00000,
+                    "sisa" => 50000.00000,
+                    "id_unit" => 4,
+                    "id_program" => 1,
+                    "id_jurusan" => 1,
+                    "id_tingkat" => 15,
+                    "id_kelas" => 45
+                ),
+                array(
+                    "id" => 5,
+                    "waktu_tagihan" => "2014-05-01 00:00:00",
+                    "id_tahun_ajaran" => 1,
+                    "id_siswa" => 1,
+                    "id_bulan" => 11,
+                    "id_jenis_pembayaran" => 3,
+                    "nilai" => 100000.00000,
+                    "terbayar" => 0.00000,
+                    "sisa" => 100000.00000,
+                    "id_unit" => 4,
+                    "id_program" => 1,
+                    "id_jurusan" => 1,
+                    "id_tingkat" => 15,
+                    "id_kelas" => 45
+                )
             )
         );
     }

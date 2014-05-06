@@ -31,6 +31,10 @@ class PenagihanComponent {
             return FALSE;
         }
 
+        if ($this->waktuTagihanKosong($tagihanObject)) {
+            return FALSE;
+        }
+
         if ($this->gagalRetrieveRecord($unitRecord, $jenisPembayaranRecord, $siswaRecord)) {
             return FALSE;
         }
@@ -45,7 +49,7 @@ class PenagihanComponent {
     }
 
     private function setTagihanObject(UnitRecord $unitRecord, JenisPembayaranRecord $jenisPembayaranRecord, SiswaRecord $siswaRecord, TagihanObject $tagihanObject) {
-        $jumlahTagihan = $this->peninjauComponent->perolehJumlahTagihanSiswa($unitRecord->getId(), $jenisPembayaranRecord->getId(), $siswaRecord->getId());
+        $jumlahTagihan = $this->peninjauComponent->perolehJumlahTagihanSiswa($unitRecord->getId(), $jenisPembayaranRecord->getId(), $siswaRecord->getId(), $tagihanObject->getWaktu());
 
         $tagihanObject->setUnitRecord($unitRecord);
         $tagihanObject->setJenisPembayaranRecord($jenisPembayaranRecord);
@@ -121,6 +125,15 @@ class PenagihanComponent {
             return FALSE;
         }
 
+        return TRUE;
+    }
+
+    private function waktuTagihanKosong(TagihanObject $tagihanObject) {
+        if (strlen($tagihanObject->getWaktu()) > 0) {
+            return FALSE;
+        }
+
+        $this->errorCode = "WAKTU_TAGIHAN_KOSONG";
         return TRUE;
     }
 

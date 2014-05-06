@@ -1,12 +1,13 @@
 {
-    "name": "andi-malik/sistem-pembayaran-a-p-i",
-    "description": "Description of project SistemPembayaranAPI.",
+    "name": "andi-malik/sistem-pembayaran-api",
+    "description": "API Sistem Pembayaran Sekolah.",
     "authors": [
         {
             "name": "Andi Malik",
             "email": "andi.malik.notifications@gmail.com"
         }
     ],
+    "license": "MIT",
     "require": {
 
     },

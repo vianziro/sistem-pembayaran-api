@@ -101,6 +101,23 @@ class PenagihanComponentUnitTest extends PHPUnit_Framework_TestCase {
      * @group componentObject
      * @covers PenagihanComponent::perolehTagihanSiswa()
      */
+    public function testPerolehTagihanSiswaReturnFalseJikaWaktuObjekTagihanKosong() {
+        $waktu = "";
+
+        $mockUnit = $this->getMockUnitRecord();
+        $mockJenisPembayaran = $this->getMockJenisPembayaranRecord();
+        $mockSiswa = $this->getMockSiswaRecord();
+        $mockTagihanObject = $this->getMockTagihanObject($waktu);
+
+        $this->assertFalse($this->object->perolehTagihanSiswa($mockUnit, $mockJenisPembayaran, $mockSiswa, $mockTagihanObject));
+        $this->assertEquals("WAKTU_TAGIHAN_KOSONG", $this->object->getErrorCode());
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers PenagihanComponent::perolehTagihanSiswa()
+     */
     public function testPerolehTagihanSiswaReturnFalseJikaGagalRetrieveUnit() {
         $mockUnit = $this->getMockUnitRecord(array("id" => 1), FALSE, array("id" => 1, "nama" => "", "label" => ""));
         $mockJenisPembayaran = $this->getMockJenisPembayaranRecord();
@@ -177,11 +194,14 @@ class PenagihanComponentUnitTest extends PHPUnit_Framework_TestCase {
         $this->assertNull($this->object->getErrorCode());
     }
 
-    private function getMockTagihanObject() {
+    private function getMockTagihanObject($waktu = "2014-05-01 00:00:00") {
         /**
          * @todo Implementasi TagihanObject.
          */
-        return $this->getMock("TagihanObject", array("setUnitRecord", "setJenisPembayaranRecord", "setSiswaRecord", "setJumlahTagihan"));
+        $mock = $this->getMock("TagihanObject", array("setUnitRecord", "setJenisPembayaranRecord", "setSiswaRecord", "setJumlahTagihan", "getWaktu"));
+        $mock->expects($this->any())->method("getWaktu")->will($this->returnValue($waktu));
+
+        return $mock;
     }
 
     private function getMockPeninjauComponent(array $setReturnValues) {
@@ -198,9 +218,6 @@ class PenagihanComponentUnitTest extends PHPUnit_Framework_TestCase {
         $mock->expects($this->any())->method("siswaAda")->with($this->anything())->will($this->returnValue($returnValues["siswaAda"]));
         $mock->expects($this->any())->method("jenisPembayaranAda")->with($this->anything())->will($this->returnValue($returnValues["jenisPembayaranAda"]));
         $mock->expects($this->any())->method("unitAda")->with($this->anything())->will($this->returnValue($returnValues["unitAda"]));
-        /**
-         * @todo Implementasi PeninjauComponent::perolehJumlahTagihanSiswa().
-         */
         $mock->expects($this->any())->method("perolehJumlahTagihanSiswa")->with($this->anything(), $this->anything(), $this->anything())->will($this->returnValue($returnValues["perolehJumlahTagihanSiswa"]));
 
         return $mock;

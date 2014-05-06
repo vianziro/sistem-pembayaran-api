@@ -139,7 +139,25 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     /**
      * @group unitTest
      * @group componentObject
-     * @dataProvider providerTestException
+     * @dataProvider providerJumlahTagihanSiswa
+     * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
+     */
+    public function testPerolehJumlahTagihanSiswa($fetchReturnValue, $failPoint, $expected) {
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+        $waktuTagihan = "2014-05-06 00:00:00";
+
+        $mockPDO = $this->getMockPDO($fetchReturnValue, $failPoint);
+        $this->object->setPDO($mockPDO);
+
+        $this->assertSame($expected, $this->object->perolehJumlahTagihanSiswa($idUnit, $idJenisPembayaran, $idSiswa, $waktuTagihan));
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @dataProvider providerTestExceptionCount
      * @covers PeninjauComponent::nomorTransaksiAda()
      */
     public function testExceptionNomorTransaksiAda($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
@@ -159,7 +177,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     /**
      * @group unitTest
      * @group componentObject
-     * @dataProvider providerTestException
+     * @dataProvider providerTestExceptionCount
      * @covers PeninjauComponent::nomorReferensiAda()
      */
     public function testExceptionNomorReferensiAda($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
@@ -179,7 +197,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     /**
      * @group unitTest
      * @group componentObject
-     * @dataProvider providerTestException
+     * @dataProvider providerTestExceptionCount
      * @covers PeninjauComponent::rekeningAda()
      */
     public function testExceptionRekeningAda($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
@@ -199,7 +217,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     /**
      * @group unitTest
      * @group componentObject
-     * @dataProvider providerTestException
+     * @dataProvider providerTestExceptionCount
      * @covers PeninjauComponent::kasirAda()
      */
     public function testExceptionKasirAda($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
@@ -219,7 +237,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     /**
      * @group unitTest
      * @group componentObject
-     * @dataProvider providerTestException
+     * @dataProvider providerTestExceptionCount
      * @covers PeninjauComponent::siswaAda()
      */
     public function testExceptionSiswaAda($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
@@ -239,7 +257,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     /**
      * @group unitTest
      * @group componentObject
-     * @dataProvider providerTestException
+     * @dataProvider providerTestExceptionCount
      * @covers PeninjauComponent::jenisPembayaranAda()
      */
     public function testExceptionJenisPembayaranAda($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
@@ -259,7 +277,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     /**
      * @group unitTest
      * @group componentObject
-     * @dataProvider providerTestException
+     * @dataProvider providerTestExceptionCount
      * @covers PeninjauComponent::unitAda()
      */
     public function testExceptionUnitAda($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
@@ -279,7 +297,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     /**
      * @group unitTest
      * @group componentObject
-     * @dataProvider providerTestException
+     * @dataProvider providerTestExceptionCount
      * @covers PeninjauComponent::hitungBanyaknyaAlokasi()
      */
     public function testExceptionHitungBanyaknyaAlokasi($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
@@ -288,6 +306,31 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
 
         try {
             $this->object->hitungBanyaknyaAlokasi(1);
+        } catch (Exception $exception) {
+            $this->assertEquals($expectedExceptionMessage, $exception->getMessage());
+            return;
+        }
+
+        $this->fail("Throw exception jika terjadi error.");
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @dataProvider providerTestExceptionSum
+     * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
+     */
+    public function testExceptionPerolehJumlahTagihanSiswa($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
+        $mockPDO = $this->getMockPDO($fetchReturnValue, $failPoint);
+        $this->object->setPDO($mockPDO);
+
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+        $waktuTagihan = "2014-05-06 00:00:00";
+
+        try {
+            $this->object->perolehJumlahTagihanSiswa($idUnit, $idJenisPembayaran, $idSiswa, $waktuTagihan);
         } catch (Exception $exception) {
             $this->assertEquals($expectedExceptionMessage, $exception->getMessage());
             return;
@@ -310,7 +353,7 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
         );
     }
 
-    public function providerTestException() {
+    public function providerTestExceptionCount() {
         return array(
             array(array("count_result" => 1), "prepare", "PREPARE_STATEMENT_GAGAL"),
             array(array("count_result" => 1), "execute", "EXECUTE_STATEMENT_GAGAL"),
@@ -318,10 +361,25 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
         );
     }
 
+    public function providerTestExceptionSum() {
+        return array(
+            array(array("sum_result" => 1), "prepare", "PREPARE_STATEMENT_GAGAL"),
+            array(array("sum_result" => 1), "execute", "EXECUTE_STATEMENT_GAGAL"),
+            array(array("sum_result" => 1), "closeCursor", "CLOSE_CURSOR_GAGAL")
+        );
+    }
+
     public function providerTestNomorAda() {
         return array(
             array(array("count_result" => 1), "", TRUE, "Return TRUE jika nomor sudah ada."),
             array(array("count_result" => 0), "", FALSE, "Return FALSE jika nomor belum ada.")
+        );
+    }
+
+    public function providerJumlahTagihanSiswa() {
+        return array(
+            array(array("sum_result" => 100000.00000), "", 100000.00000),
+            array(array("sum_result" => 0.00000), "", 0.00000)
         );
     }
 
