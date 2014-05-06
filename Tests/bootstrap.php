@@ -19,6 +19,7 @@ $__classes = array(
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "JurusanRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "KasirRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "KelasRecord.php",
+    RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "ProdukRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "ProgramRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "RekeningRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "SiswaRecord.php",
@@ -40,6 +41,10 @@ $__classes = array(
     /**
      * Worker Objects
      */
+    /**
+     * Various Objects
+     */
+    VARIOUS_OBJECTS_DIR . DIRECTORY_SEPARATOR . "TagihanObject.php",
     /**
      * Test Helpers
      */

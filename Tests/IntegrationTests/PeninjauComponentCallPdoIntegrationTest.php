@@ -112,7 +112,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
                 $result = $pdoStatement->fetch(PDO::FETCH_ASSOC);
                 $resultKey = $this->getResultKey($methodName);
 
-                $this->assertEquals($inputParameter[1], $result[$resultKey], "Result yang dikembalikan query pada method " . $methodName . " tidak sesuai harapan. " . $pdoStatement->queryString . " " . print_r($inputParameter[0], TRUE));
+                $actual = is_array($resultKey) ? $result : $result[$resultKey];
+
+                $this->assertEquals($inputParameter[1], $actual, "Result yang dikembalikan query pada method " . $methodName . " tidak sesuai harapan. " . $pdoStatement->queryString . " " . print_r($inputParameter[0], TRUE));
                 $pdoStatements[] = $pdoStatement;
             }
         }
@@ -181,6 +183,16 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
                 array(array(":id_unit" => 4, ":id_jenis_pembayaran" => 3, ":id_siswa" => 1, ":waktu_tagihan" => "2014-05-01 00:00:00"), 150000.00000),
                 array(array(":id_unit" => 4, ":id_jenis_pembayaran" => 3, ":id_siswa" => 1, ":waktu_tagihan" => "2014-04-01 00:00:00"), 50000.00000),
                 array(array(":id_unit" => 4, ":id_jenis_pembayaran" => 3, ":id_siswa" => 1, ":waktu_tagihan" => "2014-03-01 00:00:00"), 0.00000)
+            ),
+            "perolehIdUnitDanIdJenisPembayaranDariKodeProduk" => array(
+                array(array(":kode_produk" => "33"), array("id_unit" => 4, "id_jenis_pembayaran" => 3)),
+                array(array(":kode_produk" => "34"), array("id_unit" => 4, "id_jenis_pembayaran" => 4)),
+                array(array(":kode_produk" => "99"), FALSE)
+            ),
+            "perolehIdSiswaDariNIS" => array(
+                array(array(":nis" => "1000000001"), 1),
+                array(array(":nis" => "1000000002"), 2),
+                array(array(":nis" => "9999999999"), FALSE),
             )
         );
 
@@ -201,7 +213,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "unitAda" => "SELECT COUNT(*) AS count_result FROM unit WHERE id = :id",
             "jenisPembayaranAda" => "SELECT COUNT(*) AS count_result FROM jenis_pembayaran WHERE id = :id",
             "hitungBanyaknyaAlokasi" => "SELECT COUNT(*) AS count_result FROM alokasi WHERE id_transaksi = :id_transaksi",
-            "perolehJumlahTagihanSiswa" => "SELECT SUM(sisa) AS sum_result FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND waktu_tagihan <= :waktu_tagihan AND sisa != 0"
+            "perolehJumlahTagihanSiswa" => "SELECT SUM(sisa) AS sum_result FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND waktu_tagihan <= :waktu_tagihan AND sisa != 0",
+            "perolehIdUnitDanIdJenisPembayaranDariKodeProduk" => "SELECT id_unit, id_jenis_pembayaran FROM produk WHERE kode_produk LIKE :kode_produk",
+            "perolehIdSiswaDariNIS" => "SELECT id FROM siswa WHERE nis LIKE :nis"
         );
     }
 
@@ -215,7 +229,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "unitAda" => "count_result",
             "jenisPembayaranAda" => "count_result",
             "hitungBanyaknyaAlokasi" => "count_result",
-            "perolehJumlahTagihanSiswa" => "sum_result"
+            "perolehJumlahTagihanSiswa" => "sum_result",
+            "perolehIdUnitDanIdJenisPembayaranDariKodeProduk" => array("id_unit", "id_jenis_pembayaran"),
+            "perolehIdSiswaDariNIS" => "id"
         );
 
         return $resultKeys[$methodName];
@@ -251,9 +267,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
                 array("id" => 3, "nama" => "Kasir 3")
             ),
             "siswa" => array(
-                array("id" => 1, "nama" => "Siswa 1", "nis" => "10000000001"),
-                array("id" => 2, "nama" => "Siswa 2", "nis" => "10000000002"),
-                array("id" => 3, "nama" => "Siswa 3", "nis" => "10000000003")
+                array("id" => 1, "nama" => "Siswa 1", "nis" => "1000000001"),
+                array("id" => 2, "nama" => "Siswa 2", "nis" => "1000000002"),
+                array("id" => 3, "nama" => "Siswa 3", "nis" => "1000000003")
             ),
             "unit" => array(
                 array("id" => 1, "nama" => "TK", "label" => "TK"),
@@ -348,6 +364,10 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
                     "id_tingkat" => 15,
                     "id_kelas" => 45
                 )
+            ),
+            "produk" => array(
+                array("id" => 1, "kode_produk" => "33", "id_unit" => 4, "id_jenis_pembayaran" => 3),
+                array("id" => 2, "kode_produk" => "34", "id_unit" => 4, "id_jenis_pembayaran" => 4)
             )
         );
     }

@@ -98,4 +98,31 @@ class PeninjauComponent extends PeninjauAbstract {
         return $result["sum_result"];
     }
 
+    public function perolehIdUnitDanIdJenisPembayaranDariKodeProduk($kodeProduk) {
+        $sql = "SELECT id_unit, id_jenis_pembayaran FROM produk WHERE kode_produk LIKE :kode_produk";
+        $input[":kode_produk"] = $kodeProduk;
+        $result = $this->fetchRowQuery($sql, $input);
+
+        if ($result === FALSE) {
+            return array("idUnit" => NULL, "idJenisPembayaran" => NULL);
+        }
+
+        return array(
+            "idUnit" => $result["id_unit"],
+            "idJenisPembayaran" => $result["id_jenis_pembayaran"]
+        );
+    }
+
+    public function perolehIdSiswaDariNIS($nis) {
+        $sql = "SELECT id FROM siswa WHERE nis LIKE :nis";
+        $input[":nis"] = $nis;
+        $result = $this->fetchRowQuery($sql, $input);
+
+        if ($result === FALSE) {
+            return NULL;
+        }
+
+        return $result["id"];
+    }
+
 }

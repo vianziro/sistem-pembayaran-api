@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 05, 2014 at 05:22 AM
+-- Generation Time: May 06, 2014 at 01:16 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -122,6 +122,22 @@ CREATE TABLE IF NOT EXISTS `kelas` (
   `label` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_id_tingkat` (`id_tingkat`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `produk`
+--
+
+CREATE TABLE IF NOT EXISTS `produk` (
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `kode_produk` char(2) NOT NULL,
+  `id_unit` tinyint(3) unsigned NOT NULL,
+  `id_jenis_pembayaran` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_id_unit` (`id_unit`),
+  KEY `index_id_jenis_pembayaran` (`id_jenis_pembayaran`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -287,6 +303,13 @@ ALTER TABLE `alokasi`
 --
 ALTER TABLE `kelas`
   ADD CONSTRAINT `kelas_ibfk_1` FOREIGN KEY (`id_tingkat`) REFERENCES `tingkat` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `produk`
+--
+ALTER TABLE `produk`
+  ADD CONSTRAINT `produk_ibfk_2` FOREIGN KEY (`id_jenis_pembayaran`) REFERENCES `jenis_pembayaran` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `produk_ibfk_1` FOREIGN KEY (`id_unit`) REFERENCES `unit` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rekening`

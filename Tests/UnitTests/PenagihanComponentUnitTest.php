@@ -195,9 +195,6 @@ class PenagihanComponentUnitTest extends PHPUnit_Framework_TestCase {
     }
 
     private function getMockTagihanObject($waktu = "2014-05-01 00:00:00") {
-        /**
-         * @todo Implementasi TagihanObject.
-         */
         $mock = $this->getMock("TagihanObject", array("setUnitRecord", "setJenisPembayaranRecord", "setSiswaRecord", "setJumlahTagihan", "getWaktu"));
         $mock->expects($this->any())->method("getWaktu")->will($this->returnValue($waktu));
 
