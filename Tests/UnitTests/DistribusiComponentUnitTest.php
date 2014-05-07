@@ -4,7 +4,6 @@
  * Unit test objek DistribusiComponent.
  *
  * @author Andi Malik <andi.malik.notifications@gmail.com>
- * @todo Integration test DistribusiComponent dengan PeninjauComponent.
  */
 class DistribusiComponentUnitTest extends PHPUnit_Framework_TestCase {
 
