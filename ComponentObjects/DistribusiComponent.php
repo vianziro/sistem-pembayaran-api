@@ -21,7 +21,21 @@ class DistribusiComponent {
 
         $this->setDistribusi($alokasiRecord, $tagihanRecord, $distribusiRecord);
 
-        if ($this->gagalMenyimpanData($alokasiRecord, $tagihanRecord, $distribusiRecord)) {
+        if ($this->gagalMenyimpanDataPendistribusian($alokasiRecord, $tagihanRecord, $distribusiRecord)) {
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    public function pulangkanDistribusi(DistribusiRecord $distribusiRecord, AlokasiRecord $alokasiRecord) {
+        if ($this->gagalPerolehDataUntukPemulanganDistribusi($distribusiRecord, $alokasiRecord)) {
+            return FALSE;
+        }
+
+        $this->setPemulanganDistribusi($distribusiRecord, $alokasiRecord);
+
+        if ($this->gagalMenyimpanDataPemulanganDistribusi($distribusiRecord, $alokasiRecord)) {
             return FALSE;
         }
 
@@ -30,6 +44,46 @@ class DistribusiComponent {
 
     public function getErrorCode() {
         return $this->errorCode;
+    }
+
+    private function gagalPerolehDataUntukPemulanganDistribusi(DistribusiRecord $distribusiRecord, AlokasiRecord $alokasiRecord) {
+        if ($distribusiRecord->retrieve() === FALSE) {
+            $this->errorCode = "DISTRIBUSI_TIDAK_ADA";
+            return TRUE;
+        }
+
+        $alokasiRecord->setId($distribusiRecord->getIdAlokasi());
+
+        if ($alokasiRecord->retrieve() === FALSE) {
+            $this->errorCode = "ALOKASI_TIDAK_ADA";
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    private function setPemulanganDistribusi(DistribusiRecord $distribusiRecord, AlokasiRecord $alokasiRecord) {
+        $nilaiDistribusi = $distribusiRecord->getNilai();
+        $sisaAlokasi = $alokasiRecord->getSisa() + $nilaiDistribusi;
+        $terdistribusiAlokasi = $alokasiRecord->getTerdistribusi() - $nilaiDistribusi;
+
+        $alokasiRecord->setSisa($sisaAlokasi);
+        $alokasiRecord->setTerdistribusi($terdistribusiAlokasi);
+        $distribusiRecord->setNilai(0.00000);
+    }
+
+    private function gagalMenyimpanDataPemulanganDistribusi(DistribusiRecord $distribusiRecord, AlokasiRecord $alokasiRecord) {
+        if ($distribusiRecord->persist() === FALSE) {
+            $this->errorCode = "DISTRIBUSI_TIDAK_TERSIMPAN";
+            return TRUE;
+        }
+
+        if ($alokasiRecord->persist() === FALSE) {
+            $this->errorCode = "ALOKASI_TIDAK_TERSIMPAN";
+            return TRUE;
+        }
+
+        return FALSE;
     }
 
     private function dataTidakBenar(AlokasiRecord $alokasiRecord, TagihanRecord $tagihanRecord) {
@@ -46,7 +100,7 @@ class DistribusiComponent {
         return FALSE;
     }
 
-    private function gagalMenyimpanData(AlokasiRecord $alokasiRecord, TagihanRecord $tagihanRecord, DistribusiRecord $distribusiRecord) {
+    private function gagalMenyimpanDataPendistribusian(AlokasiRecord $alokasiRecord, TagihanRecord $tagihanRecord, DistribusiRecord $distribusiRecord) {
         if ($this->distribusiTidakTersimpan($distribusiRecord)) {
             return TRUE;
         }
