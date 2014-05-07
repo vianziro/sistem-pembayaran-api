@@ -187,6 +187,23 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     /**
      * @group unitTest
      * @group componentObject
+     * @dataProvider providerPerolehIdTagihanTerlama
+     * @covers PeninjauComponent::perolehIdTagihanTerlama()
+     */
+    public function testPerolehIdTagihanTerlama($fetchReturnValue, $failPoint, $expected) {
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+
+        $mockPDO = $this->getMockPDO($fetchReturnValue, $failPoint);
+        $this->object->setPDO($mockPDO);
+
+        $this->assertSame($expected, $this->object->perolehIdTagihanTerlama($idUnit, $idJenisPembayaran, $idSiswa));
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
      * @dataProvider providerTestExceptionCount
      * @covers PeninjauComponent::nomorTransaksiAda()
      */
@@ -413,6 +430,30 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
         $this->fail("Throw exception jika terjadi error.");
     }
 
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @dataProvider providerTestExceptionPerolehIdTagihanTerlama
+     * @covers PeninjauComponent::perolehIdTagihanTerlama()
+     */
+    public function testExceptionPerolehIdTagihanTerlama($fetchReturnValue, $failPoint, $expectedExceptionMessage) {
+        $mockPDO = $this->getMockPDO($fetchReturnValue, $failPoint);
+        $this->object->setPDO($mockPDO);
+
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+
+        try {
+            $this->object->perolehIdTagihanTerlama($idUnit, $idJenisPembayaran, $idSiswa);
+        } catch (Exception $exception) {
+            $this->assertEquals($expectedExceptionMessage, $exception->getMessage());
+            return;
+        }
+
+        $this->fail("Throw exception jika terjadi error.");
+    }
+
     public function providerHitungRecord() {
         return array(
             array(array("count_result" => 1), "", 1),
@@ -459,6 +500,14 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
         );
     }
 
+    public function providerTestExceptionPerolehIdTagihanTerlama() {
+        return array(
+            array(array("id" => 1), "prepare", "PREPARE_STATEMENT_GAGAL"),
+            array(array("id" => 1), "execute", "EXECUTE_STATEMENT_GAGAL"),
+            array(array("id" => 1), "closeCursor", "CLOSE_CURSOR_GAGAL")
+        );
+    }
+
     public function providerTestNomorAda() {
         return array(
             array(array("count_result" => 1), "", TRUE, "Return TRUE jika nomor sudah ada."),
@@ -482,6 +531,14 @@ class PeninjauComponentUnitTest extends PHPUnit_Framework_TestCase {
     }
 
     public function providerPerolehIdSiswaDariNIS() {
+        return array(
+            array(array("id" => 1), "", 1),
+            array(array("id" => 2), "", 2),
+            array(FALSE, "", NULL),
+        );
+    }
+
+    public function providerPerolehIdTagihanTerlama() {
         return array(
             array(array("id" => 1), "", 1),
             array(array("id" => 2), "", 2),

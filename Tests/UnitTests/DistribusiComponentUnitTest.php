@@ -4,6 +4,7 @@
  * Unit test objek DistribusiComponent.
  *
  * @author Andi Malik <andi.malik.notifications@gmail.com>
+ * @todo Integration test DistribusiComponent dengan PeninjauComponent.
  */
 class DistribusiComponentUnitTest extends PHPUnit_Framework_TestCase {
 
@@ -326,6 +327,101 @@ class DistribusiComponentUnitTest extends PHPUnit_Framework_TestCase {
 
         $this->assertFalse($returnValue);
         $this->assertEquals("ALOKASI_TIDAK_TERSIMPAN", $this->object->getErrorCode());
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers DistribusiComponent::setPeninjauComponent()
+     * @covers DistribusiComponent::getPeninjauComponent()
+     * @covers DistribusiComponent::unsetPeninjauComponent()
+     */
+    public function testSetGetUnsetKomponenPeninjau() {
+        $mockPeninjauComponent = $this->getMock("PeninjauComponent");
+
+        $this->object->unsetPeninjauComponent();
+        $this->assertNull($this->object->getPeninjauComponent());
+
+        $this->object->setPeninjauComponent($mockPeninjauComponent);
+        $this->assertSame($mockPeninjauComponent, $this->object->getPeninjauComponent());
+
+        $this->object->unsetPeninjauComponent();
+        $this->assertNull($this->object->getPeninjauComponent());
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers DistribusiComponent::perolehTagihanTerlama()
+     */
+    public function testPerolehTagihanTerlama() {
+        $idTagihan = 7;
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+        $mockTagihanRetrieveValues = $this->getMockTagihanRecordValues(array("id" => $idTagihan, "idUnit" => $idUnit, "idJenispembayaran" => $idJenisPembayaran, "idSiswa" => $idSiswa));
+
+        $mockPeninjauComponent = $this->getMock("PeninjauComponent", array("perolehIdTagihanTerlama"));
+        $mockPeninjauComponent->expects($this->any())->method("perolehIdTagihanTerlama")->with($this->equalTo($idUnit), $this->equalTo($idJenisPembayaran), $this->equalTo($idSiswa))->will($this->returnValue($idTagihan));
+
+        $mockTagihan = $this->getMockTagihanRecord(array("idUnit" => $idUnit, "idJenisPembayaran" => $idJenisPembayaran, "idSiswa" => $idSiswa));
+        $mockTagihan->setMockRetrieveReturnValue(TRUE);
+        $mockTagihan->setMockRetrieveSetValues($mockTagihanRetrieveValues);
+
+        $this->object->setPeninjauComponent($mockPeninjauComponent);
+        $returnValue = $this->object->perolehTagihanTerlama($mockTagihan);
+
+        $this->assertEquals($idTagihan, $mockTagihan->getId());
+        $this->assertTrue($returnValue);
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers DistribusiComponent::perolehTagihanTerlama()
+     */
+    public function testPerolehTagihanTerlamaReturnFalseJikaKomponentPeninjauBelumTerpasang() {
+        $idTagihan = 7;
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+        $mockTagihanRetrieveValues = $this->getMockTagihanRecordValues(array("id" => $idTagihan, "idUnit" => $idUnit, "idJenispembayaran" => $idJenisPembayaran, "idSiswa" => $idSiswa));
+
+        $mockTagihan = $this->getMockTagihanRecord(array("idUnit" => $idUnit, "idJenisPembayaran" => $idJenisPembayaran, "idSiswa" => $idSiswa));
+        $mockTagihan->setMockRetrieveReturnValue(TRUE);
+        $mockTagihan->setMockRetrieveSetValues($mockTagihanRetrieveValues);
+
+        $this->object->unsetPeninjauComponent();
+        $returnValue = $this->object->perolehTagihanTerlama($mockTagihan);
+
+        $this->assertFalse($returnValue);
+        $this->assertEquals("PENINJAU_TIDAK_TERPASANG", $this->object->getErrorCode());
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers DistribusiComponent::perolehTagihanTerlama()
+     */
+    public function testPerolehTagihanTerlamaReturnFalseJikaTagihanTidakAda() {
+        $idTagihan = 7;
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+        $mockTagihanRetrieveValues = $this->getMockTagihanRecordValues(array("id" => $idTagihan, "idUnit" => $idUnit, "idJenispembayaran" => $idJenisPembayaran, "idSiswa" => $idSiswa));
+
+        $mockPeninjauComponent = $this->getMock("PeninjauComponent", array("perolehIdTagihanTerlama"));
+        $mockPeninjauComponent->expects($this->any())->method("perolehIdTagihanTerlama")->with($this->equalTo($idUnit), $this->equalTo($idJenisPembayaran), $this->equalTo($idSiswa))->will($this->returnValue($idTagihan));
+
+        $mockTagihan = $this->getMockTagihanRecord(array("idUnit" => $idUnit, "idJenisPembayaran" => $idJenisPembayaran, "idSiswa" => $idSiswa));
+        $mockTagihan->setMockRetrieveReturnValue(FALSE);
+        $mockTagihan->setMockRetrieveSetValues($mockTagihanRetrieveValues);
+
+        $this->object->setPeninjauComponent($mockPeninjauComponent);
+        $returnValue = $this->object->perolehTagihanTerlama($mockTagihan);
+
+        $this->assertFalse($returnValue);
+        $this->assertEquals("TAGIHAN_TIDAK_ADA", $this->object->getErrorCode());
     }
 
     public function providerNilaiAlokasiDanTagihan() {

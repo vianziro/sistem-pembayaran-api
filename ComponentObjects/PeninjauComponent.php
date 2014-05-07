@@ -125,4 +125,18 @@ class PeninjauComponent extends PeninjauAbstract {
         return $result["id"];
     }
 
+    public function perolehIdTagihanTerlama($idUnit, $idJenisPembayaran, $idSiswa) {
+        $sql = "SELECT id FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND sisa != 0 ORDER BY waktu_tagihan ASC, id ASC LIMIT 1 OFFSET 0";
+        $input[":id_unit"] = $idUnit;
+        $input[":id_jenis_pembayaran"] = $idJenisPembayaran;
+        $input[":id_siswa"] = $idSiswa;
+        $result = $this->fetchRowQuery($sql, $input);
+
+        if ($result === FALSE) {
+            return NULL;
+        }
+
+        return $result["id"];
+    }
+
 }

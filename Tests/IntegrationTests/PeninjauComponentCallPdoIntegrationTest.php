@@ -30,6 +30,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
+     * @covers PeninjauComponent::perolehIdTagihanTerlama()
      * @covers PDO::setAttribute()
      */
     public function testCallSetAttribute() {
@@ -52,6 +53,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
+     * @covers PeninjauComponent::perolehIdTagihanTerlama()
      * @covers PDO::prepare()
      */
     public function testCallPrepare() {
@@ -81,6 +83,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
+     * @covers PeninjauComponent::perolehIdTagihanTerlama()
      * @covers PDOStatement::execute()
      */
     public function testCallExecute($pdoStatements) {
@@ -107,6 +110,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
+     * @covers PeninjauComponent::perolehIdTagihanTerlama()
      * @covers PDOStatement::fetch()
      */
     public function testCallFetch() {
@@ -150,6 +154,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
+     * @covers PeninjauComponent::perolehIdTagihanTerlama()
      * @covers PDOStatement::closeCursor()
      */
     public function testCallCloseCursor($pdoStatements) {
@@ -208,6 +213,10 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
                 array(array(":nis" => "1000000001"), 1),
                 array(array(":nis" => "1000000002"), 2),
                 array(array(":nis" => "9999999999"), FALSE),
+            ),
+            "perolehIdTagihanTerlama" => array(
+                array(array(":id_unit" => 4, ":id_jenis_pembayaran" => 3, ":id_siswa" => 1), 3),
+                array(array(":id_unit" => 9, ":id_jenis_pembayaran" => 9, ":id_siswa" => 9), FALSE),
             )
         );
 
@@ -230,7 +239,8 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "hitungBanyaknyaAlokasi" => "SELECT COUNT(*) AS count_result FROM alokasi WHERE id_transaksi = :id_transaksi",
             "perolehJumlahTagihanSiswa" => "SELECT SUM(sisa) AS sum_result FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND waktu_tagihan <= :waktu_tagihan AND sisa != 0",
             "perolehIdUnitDanIdJenisPembayaranDariKodeProduk" => "SELECT id_unit, id_jenis_pembayaran FROM produk WHERE kode_produk LIKE :kode_produk",
-            "perolehIdSiswaDariNIS" => "SELECT id FROM siswa WHERE nis LIKE :nis"
+            "perolehIdSiswaDariNIS" => "SELECT id FROM siswa WHERE nis LIKE :nis",
+            "perolehIdTagihanTerlama" => "SELECT id FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND sisa != 0 ORDER BY waktu_tagihan ASC, id ASC LIMIT 1 OFFSET 0"
         );
     }
 
@@ -246,7 +256,8 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "hitungBanyaknyaAlokasi" => "count_result",
             "perolehJumlahTagihanSiswa" => "sum_result",
             "perolehIdUnitDanIdJenisPembayaranDariKodeProduk" => array("id_unit", "id_jenis_pembayaran"),
-            "perolehIdSiswaDariNIS" => "id"
+            "perolehIdSiswaDariNIS" => "id",
+            "perolehIdTagihanTerlama" => "id"
         );
 
         return $resultKeys[$methodName];
