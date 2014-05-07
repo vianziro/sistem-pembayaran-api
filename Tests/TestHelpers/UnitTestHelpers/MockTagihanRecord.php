@@ -1,14 +1,14 @@
 <?php
 
-if (!class_exists("AlokasiRecord")) {
+if (!class_exists("TagihanRecord")) {
 
-    class AlokasiRecord {
+    class TagihanRecord {
 
     }
 
 }
 
-class MockAlokasiRecord extends AlokasiRecord {
+class MockTagihanRecord extends TagihanRecord {
 
     protected $mockInsertId = NULL;
     protected $mockPersistReturnValue = TRUE;
@@ -66,13 +66,19 @@ class MockAlokasiRecord extends AlokasiRecord {
     }
 
     protected $id = NULL;
-    protected $idTransaksi = NULL;
+    protected $waktuTagihan = NULL;
+    protected $idTahunAjaran = NULL;
     protected $idSiswa = NULL;
-    protected $idUnit = NULL;
+    protected $idBulan = NULL;
     protected $idJenisPembayaran = NULL;
     protected $nilai = NULL;
+    protected $terbayar = NULL;
     protected $sisa = NULL;
-    protected $terdistribusi = NULL;
+    protected $idUnit = NULL;
+    protected $idProgram = NULL;
+    protected $idJurusan = NULL;
+    protected $idTingkat = NULL;
+    protected $idKelas = NULL;
 
     public function setId($id) {
         $this->id = $id;
@@ -86,16 +92,28 @@ class MockAlokasiRecord extends AlokasiRecord {
         $this->id = NULL;
     }
 
-    public function setIdTransaksi($idTransaksi) {
-        $this->idTransaksi = $idTransaksi;
+    public function setWaktuTagihan($waktuTagihan) {
+        $this->waktuTagihan = $waktuTagihan;
     }
 
-    public function getIdTransaksi() {
-        return $this->idTransaksi;
+    public function getWaktuTagihan() {
+        return $this->waktuTagihan;
     }
 
-    public function unsetIdTransaksi() {
-        $this->idTransaksi = NULL;
+    public function unsetWaktuTagihan() {
+        $this->waktuTagihan = NULL;
+    }
+
+    public function setIdTahunAjaran($idTahunAjaran) {
+        $this->idTahunAjaran = $idTahunAjaran;
+    }
+
+    public function getIdTahunAjaran() {
+        return $this->idTahunAjaran;
+    }
+
+    public function unsetIdTahunAjaran() {
+        $this->idTahunAjaran = NULL;
     }
 
     public function setIdSiswa($idSiswa) {
@@ -110,16 +128,16 @@ class MockAlokasiRecord extends AlokasiRecord {
         $this->idSiswa = NULL;
     }
 
-    public function setIdUnit($idUnit) {
-        $this->idUnit = $idUnit;
+    public function setIdBulan($idBulan) {
+        $this->idBulan = $idBulan;
     }
 
-    public function getIdUnit() {
-        return $this->idUnit;
+    public function getIdBulan() {
+        return $this->idBulan;
     }
 
-    public function unsetIdUnit() {
-        $this->idUnit = NULL;
+    public function unsetIdBulan() {
+        $this->idBulan = NULL;
     }
 
     public function setIdJenisPembayaran($idJenisPembayaran) {
@@ -146,6 +164,18 @@ class MockAlokasiRecord extends AlokasiRecord {
         $this->nilai = NULL;
     }
 
+    public function setTerbayar($terbayar) {
+        $this->terbayar = $terbayar;
+    }
+
+    public function getTerbayar() {
+        return $this->terbayar;
+    }
+
+    public function unsetTerbayar() {
+        $this->terbayar = NULL;
+    }
+
     public function setSisa($sisa) {
         $this->sisa = $sisa;
     }
@@ -158,16 +188,64 @@ class MockAlokasiRecord extends AlokasiRecord {
         $this->sisa = NULL;
     }
 
-    public function setTerdistribusi($terdistribusi) {
-        $this->terdistribusi = $terdistribusi;
+    public function setIdUnit($idUnit) {
+        $this->idUnit = $idUnit;
     }
 
-    public function getTerdistribusi() {
-        return $this->terdistribusi;
+    public function getIdUnit() {
+        return $this->idUnit;
     }
 
-    public function unsetTerdistribusi() {
-        $this->terdistribusi = NULL;
+    public function unsetIdUnit() {
+        $this->idUnit = NULL;
+    }
+
+    public function setIdProgram($idProgram) {
+        $this->idProgram = $idProgram;
+    }
+
+    public function getIdProgram() {
+        return $this->idProgram;
+    }
+
+    public function unsetIdProgram() {
+        $this->idProgram = NULL;
+    }
+
+    public function setIdJurusan($idJurusan) {
+        $this->idJurusan = $idJurusan;
+    }
+
+    public function getIdJurusan() {
+        return $this->idJurusan;
+    }
+
+    public function unsetIdJurusan() {
+        $this->idJurusan = NULL;
+    }
+
+    public function setIdTingkat($idTingkat) {
+        $this->idTingkat = $idTingkat;
+    }
+
+    public function getIdTingkat() {
+        return $this->idTingkat;
+    }
+
+    public function unsetIdTingkat() {
+        $this->idTingkat = NULL;
+    }
+
+    public function setIdKelas($idKelas) {
+        $this->idKelas = $idKelas;
+    }
+
+    public function getIdKelas() {
+        return $this->idKelas;
+    }
+
+    public function unsetIdKelas() {
+        $this->idKelas = NULL;
     }
 
 }

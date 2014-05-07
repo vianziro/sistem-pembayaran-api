@@ -1,14 +1,14 @@
 <?php
 
-if (!class_exists("AlokasiRecord")) {
+if (!class_exists("DistribusiRecord")) {
 
-    class AlokasiRecord {
+    class DistribusiRecord {
 
     }
 
 }
 
-class MockAlokasiRecord extends AlokasiRecord {
+class MockDistribusiRecord extends DistribusiRecord {
 
     protected $mockInsertId = NULL;
     protected $mockPersistReturnValue = TRUE;
@@ -66,13 +66,13 @@ class MockAlokasiRecord extends AlokasiRecord {
     }
 
     protected $id = NULL;
-    protected $idTransaksi = NULL;
-    protected $idSiswa = NULL;
-    protected $idUnit = NULL;
-    protected $idJenisPembayaran = NULL;
+    protected $idAlokasi = NULL;
+    protected $idTagihan = NULL;
     protected $nilai = NULL;
-    protected $sisa = NULL;
-    protected $terdistribusi = NULL;
+
+    public function __construct() {
+        $this->setPrimaryKeyPropertyName("id");
+    }
 
     public function setId($id) {
         $this->id = $id;
@@ -86,52 +86,28 @@ class MockAlokasiRecord extends AlokasiRecord {
         $this->id = NULL;
     }
 
-    public function setIdTransaksi($idTransaksi) {
-        $this->idTransaksi = $idTransaksi;
+    public function setIdAlokasi($idAlokasi) {
+        $this->idAlokasi = $idAlokasi;
     }
 
-    public function getIdTransaksi() {
-        return $this->idTransaksi;
+    public function getIdAlokasi() {
+        return $this->idAlokasi;
     }
 
-    public function unsetIdTransaksi() {
-        $this->idTransaksi = NULL;
+    public function unsetIdAlokasi() {
+        $this->idAlokasi = NULL;
     }
 
-    public function setIdSiswa($idSiswa) {
-        $this->idSiswa = $idSiswa;
+    public function setIdTagihan($idTagihan) {
+        $this->idTagihan = $idTagihan;
     }
 
-    public function getIdSiswa() {
-        return $this->idSiswa;
+    public function getIdTagihan() {
+        return $this->idTagihan;
     }
 
-    public function unsetIdSiswa() {
-        $this->idSiswa = NULL;
-    }
-
-    public function setIdUnit($idUnit) {
-        $this->idUnit = $idUnit;
-    }
-
-    public function getIdUnit() {
-        return $this->idUnit;
-    }
-
-    public function unsetIdUnit() {
-        $this->idUnit = NULL;
-    }
-
-    public function setIdJenisPembayaran($idJenisPembayaran) {
-        $this->idJenisPembayaran = $idJenisPembayaran;
-    }
-
-    public function getIdJenisPembayaran() {
-        return $this->idJenisPembayaran;
-    }
-
-    public function unsetIdJenisPembayaran() {
-        $this->idJenisPembayaran = NULL;
+    public function unsetIdTagihan() {
+        $this->idTagihan = NULL;
     }
 
     public function setNilai($nilai) {
@@ -144,30 +120,6 @@ class MockAlokasiRecord extends AlokasiRecord {
 
     public function unsetNilai() {
         $this->nilai = NULL;
-    }
-
-    public function setSisa($sisa) {
-        $this->sisa = $sisa;
-    }
-
-    public function getSisa() {
-        return $this->sisa;
-    }
-
-    public function unsetSisa() {
-        $this->sisa = NULL;
-    }
-
-    public function setTerdistribusi($terdistribusi) {
-        $this->terdistribusi = $terdistribusi;
-    }
-
-    public function getTerdistribusi() {
-        return $this->terdistribusi;
-    }
-
-    public function unsetTerdistribusi() {
-        $this->terdistribusi = NULL;
     }
 
 }

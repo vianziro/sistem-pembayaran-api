@@ -15,6 +15,7 @@ $__classes = array(
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "AlokasiRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "BankRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "BulanRecord.php",
+    RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "DistribusiRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "JenisPembayaranRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "JurusanRecord.php",
     RECORD_OBJECTS_DIR . DIRECTORY_SEPARATOR . "KasirRecord.php",
@@ -32,6 +33,7 @@ $__classes = array(
      * Component Objects
      */
     COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "PeninjauAbstract.php",
+    COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "DistribusiComponent.php",
     COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "PeninjauComponent.php",
     COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "PenagihanComponent.php",
     COMPONENT_OBJECTS_DIR . DIRECTORY_SEPARATOR . "TransaksiComponent.php",
@@ -50,9 +52,11 @@ $__classes = array(
      */
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockAlokasiRecord.php",
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockDateTime.php",
+    UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockDistribusiRecord.php",
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockJenisPembayaranRecord.php",
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockPDO.php",
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockSiswaRecord.php",
+    UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockTagihanRecord.php",
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockTransaksiRecord.php",
     UNIT_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MockUnitRecord.php",
     INTEGRATION_TEST_HELPERS_DIR . DIRECTORY_SEPARATOR . "MyApp_DbUnit_ArrayDataSet.php",

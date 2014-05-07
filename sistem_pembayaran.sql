@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 06, 2014 at 01:16 PM
+-- Generation Time: May 07, 2014 at 06:05 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -69,6 +69,22 @@ CREATE TABLE IF NOT EXISTS `bulan` (
   `urutan` tinyint(3) unsigned NOT NULL,
   `bagian_periode` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `distribusi`
+--
+
+CREATE TABLE IF NOT EXISTS `distribusi` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id_alokasi` bigint(20) unsigned NOT NULL,
+  `id_tagihan` bigint(20) unsigned DEFAULT NULL,
+  `nilai` decimal(20,5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_id_alokasi` (`id_alokasi`),
+  KEY `index_id_tagihan` (`id_tagihan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -299,6 +315,13 @@ ALTER TABLE `alokasi`
   ADD CONSTRAINT `alokasi_ibfk_4` FOREIGN KEY (`id_jenis_pembayaran`) REFERENCES `jenis_pembayaran` (`id`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `distribusi`
+--
+ALTER TABLE `distribusi`
+  ADD CONSTRAINT `distribusi_ibfk_2` FOREIGN KEY (`id_tagihan`) REFERENCES `tagihan` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `distribusi_ibfk_1` FOREIGN KEY (`id_alokasi`) REFERENCES `alokasi` (`id`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `kelas`
 --
 ALTER TABLE `kelas`
@@ -308,8 +331,8 @@ ALTER TABLE `kelas`
 -- Constraints for table `produk`
 --
 ALTER TABLE `produk`
-  ADD CONSTRAINT `produk_ibfk_2` FOREIGN KEY (`id_jenis_pembayaran`) REFERENCES `jenis_pembayaran` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `produk_ibfk_1` FOREIGN KEY (`id_unit`) REFERENCES `unit` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `produk_ibfk_1` FOREIGN KEY (`id_unit`) REFERENCES `unit` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `produk_ibfk_2` FOREIGN KEY (`id_jenis_pembayaran`) REFERENCES `jenis_pembayaran` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rekening`
@@ -321,7 +344,6 @@ ALTER TABLE `rekening`
 -- Constraints for table `tagihan`
 --
 ALTER TABLE `tagihan`
-  ADD CONSTRAINT `tagihan_ibfk_9` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `tagihan_ibfk_1` FOREIGN KEY (`id_tahun_ajaran`) REFERENCES `tahun_ajaran` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `tagihan_ibfk_2` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `tagihan_ibfk_3` FOREIGN KEY (`id_bulan`) REFERENCES `bulan` (`id`) ON UPDATE CASCADE,
@@ -329,7 +351,8 @@ ALTER TABLE `tagihan`
   ADD CONSTRAINT `tagihan_ibfk_5` FOREIGN KEY (`id_unit`) REFERENCES `unit` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `tagihan_ibfk_6` FOREIGN KEY (`id_program`) REFERENCES `program` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `tagihan_ibfk_7` FOREIGN KEY (`id_jurusan`) REFERENCES `jurusan` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `tagihan_ibfk_8` FOREIGN KEY (`id_tingkat`) REFERENCES `tingkat` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `tagihan_ibfk_8` FOREIGN KEY (`id_tingkat`) REFERENCES `tingkat` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `tagihan_ibfk_9` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tingkat`

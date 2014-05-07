@@ -27,6 +27,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::nomorUnitAda()
      * @covers PeninjauComponent::nomorJenisPembayaranAda()
      * @covers PeninjauComponent::hitungBanyaknyaALokasi()
+     * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
+     * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
+     * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PDO::setAttribute()
      */
     public function testCallSetAttribute() {
@@ -46,6 +49,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::unitAda()
      * @covers PeninjauComponent::jenisPembayaranAda()
      * @covers PeninjauComponent::hitungBanyaknyaAlokasi()
+     * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
+     * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
+     * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PDO::prepare()
      */
     public function testCallPrepare() {
@@ -72,6 +78,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::unitAda()
      * @covers PeninjauComponent::jenisPembayaranAda()
      * @covers PeninjauComponent::hitungBanyaknyaAlokasi()
+     * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
+     * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
+     * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PDOStatement::execute()
      */
     public function testCallExecute($pdoStatements) {
@@ -95,6 +104,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::unitAda()
      * @covers PeninjauComponent::jenisPembayaranAda()
      * @covers PeninjauComponent::hitungBanyaknyaAlokasi()
+     * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
+     * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
+     * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PDOStatement::fetch()
      */
     public function testCallFetch() {
@@ -135,6 +147,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::unitAda()
      * @covers PeninjauComponent::jenisPembayaranAda()
      * @covers PeninjauComponent::hitungBanyaknyaAlokasi()
+     * @covers PeninjauComponent::perolehJumlahTagihanSiswa()
+     * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
+     * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PDOStatement::closeCursor()
      */
     public function testCallCloseCursor($pdoStatements) {
