@@ -424,6 +424,127 @@ class DistribusiComponentUnitTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("TAGIHAN_TIDAK_ADA", $this->object->getErrorCode());
     }
 
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers DistribusiComponent::perolehDistribusiSisaTerlama()
+     */
+    public function testPerolehDistribusiSisaTerlama() {
+        $idDistribusi = 1;
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+        $mockDistribusiRetrieveValues = $this->getMockDistribusiRecordValues(array("id" => $idDistribusi));
+
+        $mockPeninjauComponent = $this->getMock("PeninjauComponent", array("perolehIdDistribusiSisaTerlama"));
+        $mockPeninjauComponent->expects($this->any())->method("perolehIdDistribusiSisaTerlama")->with($this->equalTo($idUnit), $this->equalTo($idJenisPembayaran), $this->equalTo($idSiswa))->will($this->returnValue($idDistribusi));
+
+        $mockAlokasiRecord = $this->getMockAlokasiRecord(array("idUnit" => $idUnit, "idJenisPembayaran" => $idJenisPembayaran, "idSiswa" => $idSiswa));
+
+        $mockDistribusiRecord = $this->getMockDistribusiRecord(array());
+        $mockDistribusiRecord->setMockRetrieveReturnValue(TRUE);
+        $mockDistribusiRecord->setMockRetrieveSetValues($mockDistribusiRetrieveValues);
+
+        $this->object->setPeninjauComponent($mockPeninjauComponent);
+        $returnValue = $this->object->perolehDistribusiSisaTerlama($mockAlokasiRecord, $mockDistribusiRecord);
+
+        $this->assertEquals($idDistribusi, $mockDistribusiRecord->getId());
+        $this->assertTrue($returnValue);
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers DistribusiComponent::perolehDistribusiSisaTerlama()
+     */
+    public function testPerolehDistribusiSisaTerlamaReturnFalseJikaKomponenPeninjauBelumTerpasang() {
+        $idDistribusi = 1;
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+        $mockDistribusiRetrieveValues = $this->getMockDistribusiRecordValues(array("id" => $idDistribusi));
+
+        $mockAlokasiRecord = $this->getMockAlokasiRecord(array("idUnit" => $idUnit, "idJenisPembayaran" => $idJenisPembayaran, "idSiswa" => $idSiswa));
+
+        $mockDistribusiRecord = $this->getMockDistribusiRecord(array());
+        $mockDistribusiRecord->setMockRetrieveReturnValue(TRUE);
+        $mockDistribusiRecord->setMockRetrieveSetValues($mockDistribusiRetrieveValues);
+
+        $this->object->unsetPeninjauComponent();
+        $returnValue = $this->object->perolehDistribusiSisaTerlama($mockAlokasiRecord, $mockDistribusiRecord);
+
+        $this->assertFalse($returnValue);
+        $this->assertEquals("PENINJAU_TIDAK_TERPASANG", $this->object->getErrorCode());
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers DistribusiComponent::perolehDistribusiSisaTerlama()
+     */
+    public function testPerolehDistribusiSisaTerlamaReturnFalseJikaDistribusiTidakAda() {
+        $idDistribusi = 1;
+        $idUnit = 4;
+        $idJenisPembayaran = 3;
+        $idSiswa = 1;
+        $mockDistribusiRetrieveValues = $this->getMockDistribusiRecordValues(array("id" => $idDistribusi));
+
+        $mockPeninjauComponent = $this->getMock("PeninjauComponent", array("perolehIdDistribusiSisaTerlama"));
+        $mockPeninjauComponent->expects($this->any())->method("perolehIdDistribusiSisaTerlama")->with($this->equalTo($idUnit), $this->equalTo($idJenisPembayaran), $this->equalTo($idSiswa))->will($this->returnValue($idDistribusi));
+
+        $mockAlokasiRecord = $this->getMockAlokasiRecord(array("idUnit" => $idUnit, "idJenisPembayaran" => $idJenisPembayaran, "idSiswa" => $idSiswa));
+
+        $mockDistribusiRecord = $this->getMockDistribusiRecord(array());
+        $mockDistribusiRecord->setMockRetrieveReturnValue(FALSE);
+        $mockDistribusiRecord->setMockRetrieveSetValues($mockDistribusiRetrieveValues);
+
+        $this->object->setPeninjauComponent($mockPeninjauComponent);
+        $returnValue = $this->object->perolehDistribusiSisaTerlama($mockAlokasiRecord, $mockDistribusiRecord);
+
+        $this->assertFalse($returnValue);
+        $this->assertEquals("DISTRIBUSI_TIDAK_ADA", $this->object->getErrorCode());
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers DistribusiComponent::perolehAlokasiDariDistribusi()
+     */
+    public function testPerolehAlokasiDariDistribusi() {
+        $idAlokasi = 7;
+        $mockAlokasiRecordRetrieveValues = $this->getMockAlokasiRecordValues(array("id" => $idAlokasi));
+
+        $mockDistribusiRecord = $this->getMockDistribusiRecord(array("idAlokasi" => $idAlokasi));
+        $mockAlokasiRecord = $this->getMockAlokasiRecord($mockAlokasiRecordRetrieveValues);
+        $mockAlokasiRecord->setMockRetrieveSetValues($mockAlokasiRecordRetrieveValues);
+        $mockAlokasiRecord->setMockRetrieveReturnValue(TRUE);
+
+        $returnValue = $this->object->perolehAlokasiDariDistribusi($mockDistribusiRecord, $mockAlokasiRecord);
+
+        $this->assertEquals($idAlokasi, $mockAlokasiRecord->getId());
+        $this->assertTrue($returnValue);
+    }
+
+    /**
+     * @group unitTest
+     * @group componentObject
+     * @covers DistribusiComponent::perolehAlokasiDariDistribusi()
+     */
+    public function testPerolehAlokasiDariDistribusiReturnFalseJikaAlokasiTidakAda() {
+        $idAlokasi = 7;
+        $mockAlokasiRecordRetrieveValues = $this->getMockAlokasiRecordValues(array("id" => $idAlokasi));
+
+        $mockDistribusiRecord = $this->getMockDistribusiRecord(array("idAlokasi" => $idAlokasi));
+        $mockAlokasiRecord = $this->getMockAlokasiRecord($mockAlokasiRecordRetrieveValues);
+        $mockAlokasiRecord->setMockRetrieveSetValues($mockAlokasiRecordRetrieveValues);
+        $mockAlokasiRecord->setMockRetrieveReturnValue(FALSE);
+
+        $returnValue = $this->object->perolehAlokasiDariDistribusi($mockDistribusiRecord, $mockAlokasiRecord);
+
+        $this->assertFalse($returnValue);
+        $this->assertEquals("ALOKASI_TIDAK_ADA", $this->object->getErrorCode());
+    }
+
     public function providerNilaiAlokasiDanTagihan() {
         return array(
             array(110.00000, 110.00000, 0.00000, 100.00000, 100.00000, 0.00000, array("sisaAlokasi" => 10.00000, "terdistribusiAlokasi" => 100.00000, "nilaiDistribusi" => 100.00000, "sisaTagihan" => 0.00000, "terbayarTagihan" => 100.00000)),

@@ -139,4 +139,18 @@ class PeninjauComponent extends PeninjauAbstract {
         return $result["id"];
     }
 
+    public function perolehIdDistribusiSisaTerlama($idUnit, $idJenisPembayaran, $idSiswa) {
+        $sql = "SELECT d.id FROM distribusi d INNER JOIN alokasi a ON d.id_alokasi = a.id WHERE a.id_unit = :id_unit AND a.id_jenis_pembayaran = :id_jenis_pembayaran AND a.id_siswa = :id_siswa AND d.id_tagihan IS NULL ORDER BY id ASC LIMIT 1 OFFSET 0";
+        $input[":id_unit"] = $idUnit;
+        $input[":id_jenis_pembayaran"] = $idJenisPembayaran;
+        $input[":id_siswa"] = $idSiswa;
+        $result = $this->fetchRowQuery($sql, $input);
+
+        if ($result === FALSE) {
+            return NULL;
+        }
+
+        return $result["id"];
+    }
+
 }

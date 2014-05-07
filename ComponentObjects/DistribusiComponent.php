@@ -62,11 +62,38 @@ class DistribusiComponent {
         }
 
         $idTagihan = $this->peninjauComponent->perolehIdTagihanTerlama($tagihanRecord->getIdUnit(), $tagihanRecord->getIdJenisPembayaran(), $tagihanRecord->getIdSiswa());
-
         $tagihanRecord->setId($idTagihan);
 
         if ($tagihanRecord->retrieve() === FALSE) {
             $this->errorCode = "TAGIHAN_TIDAK_ADA";
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    public function perolehDistribusiSisaTerlama(AlokasiRecord $alokasiRecord, DistribusiRecord $distribusiRecord) {
+        if (!($this->peninjauComponent instanceof PeninjauComponent)) {
+            $this->errorCode = "PENINJAU_TIDAK_TERPASANG";
+            return FALSE;
+        }
+
+        $idDistribusi = $this->peninjauComponent->perolehIdDistribusiSisaTerlama($alokasiRecord->getIdUnit(), $alokasiRecord->getIdJenisPembayaran(), $alokasiRecord->getIdSiswa());
+        $distribusiRecord->setId($idDistribusi);
+
+        if ($distribusiRecord->retrieve() === FALSE) {
+            $this->errorCode = "DISTRIBUSI_TIDAK_ADA";
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    public function perolehAlokasiDariDistribusi(DistribusiRecord $distribusiRecord, AlokasiRecord $alokasiRecord) {
+        $alokasiRecord->setId($distribusiRecord->getIdAlokasi());
+
+        if ($alokasiRecord->retrieve() === FALSE) {
+            $this->errorCode = "ALOKASI_TIDAK_ADA";
             return FALSE;
         }
 

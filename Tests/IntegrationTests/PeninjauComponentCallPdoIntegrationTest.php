@@ -31,6 +31,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PeninjauComponent::perolehIdTagihanTerlama()
+     * @covers PeninjauComponent::perolehIdDistribusiSisaTerlama()
      * @covers PDO::setAttribute()
      */
     public function testCallSetAttribute() {
@@ -54,6 +55,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PeninjauComponent::perolehIdTagihanTerlama()
+     * @covers PeninjauComponent::perolehIdDistribusiSisaTerlama()
      * @covers PDO::prepare()
      */
     public function testCallPrepare() {
@@ -84,6 +86,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PeninjauComponent::perolehIdTagihanTerlama()
+     * @covers PeninjauComponent::perolehIdDistribusiSisaTerlama()
      * @covers PDOStatement::execute()
      */
     public function testCallExecute($pdoStatements) {
@@ -111,6 +114,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PeninjauComponent::perolehIdTagihanTerlama()
+     * @covers PeninjauComponent::perolehIdDistribusiSisaTerlama()
      * @covers PDOStatement::fetch()
      */
     public function testCallFetch() {
@@ -155,6 +159,7 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
      * @covers PeninjauComponent::perolehIdUnitDanIdJenisPembayaranDariKodeProduk()
      * @covers PeninjauComponent::perolehIdSiswaDariNIS()
      * @covers PeninjauComponent::perolehIdTagihanTerlama()
+     * @covers PeninjauComponent::perolehIdDistribusiSisaTerlama()
      * @covers PDOStatement::closeCursor()
      */
     public function testCallCloseCursor($pdoStatements) {
@@ -217,6 +222,10 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "perolehIdTagihanTerlama" => array(
                 array(array(":id_unit" => 4, ":id_jenis_pembayaran" => 3, ":id_siswa" => 1), 3),
                 array(array(":id_unit" => 9, ":id_jenis_pembayaran" => 9, ":id_siswa" => 9), FALSE),
+            ),
+            "perolehIdDistribusiSisaTerlama" => array(
+                array(array(":id_unit" => 4, ":id_jenis_pembayaran" => 3, ":id_siswa" => 1), 4),
+                array(array(":id_unit" => 9, ":id_jenis_pembayaran" => 9, ":id_siswa" => 9), FALSE),
             )
         );
 
@@ -240,7 +249,8 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "perolehJumlahTagihanSiswa" => "SELECT SUM(sisa) AS sum_result FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND waktu_tagihan <= :waktu_tagihan AND sisa != 0",
             "perolehIdUnitDanIdJenisPembayaranDariKodeProduk" => "SELECT id_unit, id_jenis_pembayaran FROM produk WHERE kode_produk LIKE :kode_produk",
             "perolehIdSiswaDariNIS" => "SELECT id FROM siswa WHERE nis LIKE :nis",
-            "perolehIdTagihanTerlama" => "SELECT id FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND sisa != 0 ORDER BY waktu_tagihan ASC, id ASC LIMIT 1 OFFSET 0"
+            "perolehIdTagihanTerlama" => "SELECT id FROM tagihan WHERE id_unit = :id_unit AND id_jenis_pembayaran = :id_jenis_pembayaran AND id_siswa = :id_siswa AND sisa != 0 ORDER BY waktu_tagihan ASC, id ASC LIMIT 1 OFFSET 0",
+            "perolehIdDistribusiSisaTerlama" => "SELECT d.id FROM distribusi d INNER JOIN alokasi a ON d.id_alokasi = a.id WHERE a.id_unit = :id_unit AND a.id_jenis_pembayaran = :id_jenis_pembayaran AND a.id_siswa = :id_siswa AND d.id_tagihan IS NULL ORDER BY id ASC LIMIT 1 OFFSET 0"
         );
     }
 
@@ -257,7 +267,8 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "perolehJumlahTagihanSiswa" => "sum_result",
             "perolehIdUnitDanIdJenisPembayaranDariKodeProduk" => array("id_unit", "id_jenis_pembayaran"),
             "perolehIdSiswaDariNIS" => "id",
-            "perolehIdTagihanTerlama" => "id"
+            "perolehIdTagihanTerlama" => "id",
+            "perolehIdDistribusiSisaTerlama" => "id"
         );
 
         return $resultKeys[$methodName];
@@ -285,7 +296,9 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
                 array("id" => 2, "id_transaksi" => 1, "id_siswa" => 1, "id_unit" => 1, "id_jenis_pembayaran" => 2, "nilai" => 2.00000, "sisa" => 2.00000, "terdistribusi" => 0.00000),
                 array("id" => 3, "id_transaksi" => 2, "id_siswa" => 1, "id_unit" => 1, "id_jenis_pembayaran" => 1, "nilai" => 1.00000, "sisa" => 1.00000, "terdistribusi" => 0.00000),
                 array("id" => 4, "id_transaksi" => 2, "id_siswa" => 1, "id_unit" => 1, "id_jenis_pembayaran" => 2, "nilai" => 1.00000, "sisa" => 1.00000, "terdistribusi" => 0.00000),
-                array("id" => 5, "id_transaksi" => 2, "id_siswa" => 1, "id_unit" => 1, "id_jenis_pembayaran" => 3, "nilai" => 1.00000, "sisa" => 1.00000, "terdistribusi" => 0.00000)
+                array("id" => 5, "id_transaksi" => 2, "id_siswa" => 1, "id_unit" => 1, "id_jenis_pembayaran" => 3, "nilai" => 1.00000, "sisa" => 1.00000, "terdistribusi" => 0.00000),
+                array("id" => 7, "id_transaksi" => 7, "id_siswa" => 1, "id_unit" => 4, "id_jenis_pembayaran" => 3, "nilai" => 10.00000, "sisa" => 0.00000, "terdistribusi" => 10.00000),
+                array("id" => 8, "id_transaksi" => 8, "id_siswa" => 1, "id_unit" => 4, "id_jenis_pembayaran" => 3, "nilai" => 10.00000, "sisa" => 0.00000, "terdistribusi" => 10.00000)
             ),
             "kasir" => array(
                 array("id" => 1, "nama" => "Kasir 1"),
@@ -394,6 +407,13 @@ class PeninjauComponentCallPdoIntegrationTest extends MyApp_Database_TestCase {
             "produk" => array(
                 array("id" => 1, "kode_produk" => "33", "id_unit" => 4, "id_jenis_pembayaran" => 3),
                 array("id" => 2, "kode_produk" => "34", "id_unit" => 4, "id_jenis_pembayaran" => 4)
+            ),
+            "distribusi" => array(
+                array("id" => 1, "id_alokasi" => 7, "id_tagihan" => 7, "nilai" => 3.00000),
+                array("id" => 2, "id_alokasi" => 7, "id_tagihan" => 8, "nilai" => 3.00000),
+                array("id" => 3, "id_alokasi" => 7, "id_tagihan" => 9, "nilai" => 3.00000),
+                array("id" => 4, "id_alokasi" => 7, "id_tagihan" => NULL, "nilai" => 1.00000),
+                array("id" => 5, "id_alokasi" => 8, "id_tagihan" => NULL, "nilai" => 10.00000)
             )
         );
     }
